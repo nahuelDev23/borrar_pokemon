@@ -5,7 +5,7 @@
       <FilterByType />
     </div>
 
-    <div class="grid grid-cols-6">
+    <div class="grid grid-cols-3 md:grid-cols-6">
       <div class="poke" v-for="(pokemon, index) in pokemons" :key="index">
         <div class="text-center">{{ pokemon.name }}</div>
         <img class="mx-auto poke2" :src="pokemon.sprites.front_default" alt="">
