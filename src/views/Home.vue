@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div v-if="loader" >
+      cargando...
+    </div>
+   
+    <div class="grid grid-cols-6" v-else>
+       <Card :pokemons='pokemons'/>
+    </div>
+     
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mapActions, mapState } from 'vuex'
+import Card from '../components/Card.vue'
+
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld
-  }
+    Card 
+    },
+    computed: {
+     ...mapState(['pokemons','loader'])
+    },
+    methods:{
+     
+    }
 }
 </script>
