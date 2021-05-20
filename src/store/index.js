@@ -25,7 +25,7 @@ export default createStore({
     },
     async getPokemons({commit}){
       let array = []
-      for(let i = 1 ; i<=150 ; i++){
+      for(let i = 1 ; i<=2 ; i++){
         const getPokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
         const respuesta = await getPokemons.json()
        
