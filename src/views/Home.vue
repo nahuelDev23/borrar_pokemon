@@ -1,9 +1,9 @@
 <template>
     <div v-if="loader" >
-      cargando...
+      cargando
     </div>
    
-    <div class="grid grid-cols-6" v-else>
+    <div class="" v-else>
        <Card :pokemons='pokemonsFilter'/>
     </div>
      
