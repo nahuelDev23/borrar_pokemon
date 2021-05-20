@@ -1,6 +1,7 @@
 <template>
   <div class="grid grid-cols-1">
     <div>
+      <search/>
       <FilterByType />
     </div>
 
@@ -21,8 +22,9 @@
 
 <script>
 import FilterByType from "./FilterByType.vue";
+import Search from './Search.vue';
 export default {
-  components: { FilterByType },
+  components: { FilterByType, Search },
   name: "Card",
   props: ["pokemons"],
 };

@@ -16,6 +16,7 @@ export default createStore({
     },
     setPokemonsFilter(state,payload){
       state.pokemonsFilter = payload
+     
     }
   },
   actions: {
@@ -48,7 +49,15 @@ export default createStore({
        }else{
         commit('setPokemonsFilter',state.pokemons)
        }
-       
+     },
+     async searchPokemonByName({commit,state},name){
+       let pokemon = state.pokemons.filter(pokemon => {
+         const pokemonName = pokemon.name.toLowerCase()
+          if(pokemonName.includes(name)){
+            return pokemon
+          }
+       } )
+      commit('setPokemonsFilter',pokemon)
      }
   },
   getters:{

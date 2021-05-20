@@ -11,11 +11,12 @@ import {mapActions} from 'vuex'
 export default {
   components: { Home },
   methods: {
-    ...mapActions(['getPokemons','filterPokemons'])
+    ...mapActions(['getPokemons','filterPokemons','searchPokemonByName'])
   },
   async created(){
     await this.getPokemons()
     await this.filterPokemons('')
+    await this.searchPokemonByName('')
     
   }
 }

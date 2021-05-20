@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapState } from 'vuex'
 import Card from '../components/Card.vue'
 
 
@@ -21,6 +21,7 @@ export default {
     },
     computed: {
      ...mapState(['loader','pokemonsFilter'])
+
     },
     methods:{
      
