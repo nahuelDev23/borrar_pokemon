@@ -16,7 +16,6 @@ export default createStore({
     },
     setPokemonsFilter(state,payload){
       state.pokemonsFilter = payload
-     
     }
   },
   actions: {
@@ -36,18 +35,21 @@ export default createStore({
       await commit('setPokemons',array)
     },
      async filterPokemons({commit,state},tipo){
-       
-        let array = state.pokemons.filter(item => {
-         
-          for(let i in item){
-            return i.name
-            
-          }
+       if(tipo !== ''){
+        let filtrado = []
+        state.pokemons.filter(item => {
+            for(let i = 0 ; i < item.types.length ; i++){
+              if(item.types[i].type.name == tipo.toLowerCase()){
+                filtrado.push(item)
+              }
+           }   
         })
-        console.log(array)
-        // commit('setPokemonsFilter',array)
+        commit('setPokemonsFilter',filtrado)
+       }else{
+        commit('setPokemonsFilter',state.pokemons)
+       }
+       
      }
-
   },
   getters:{
     

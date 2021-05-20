@@ -4,7 +4,7 @@
     </div>
    
     <div class="grid grid-cols-6" v-else>
-       <Card :pokemons='pokemons'/>
+       <Card :pokemons='pokemonsFilter'/>
     </div>
      
 </template>
@@ -20,7 +20,7 @@ export default {
     Card 
     },
     computed: {
-     ...mapState(['pokemons','loader'])
+     ...mapState(['loader','pokemonsFilter'])
     },
     methods:{
      

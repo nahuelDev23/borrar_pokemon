@@ -15,7 +15,7 @@ export default {
   },
   async created(){
     await this.getPokemons()
-    await this.filterPokemons()
+    await this.filterPokemons('')
     
   }
 }
