@@ -6,13 +6,16 @@
     </div>
 
     <div class="grid grid-cols-6">
-      <div v-for="(pokemon, index) in pokemons" :key="index">
+      <div class="poke" v-for="(pokemon, index) in pokemons" :key="index">
         <div class="text-center">{{ pokemon.name }}</div>
+        <img class="mx-auto poke2" :src="pokemon.sprites.front_default" alt="">
+        <img class="mx-auto  hidden pokeesc" :src="pokemon.sprites.front_shiny" alt="">
         <div v-for="item in pokemon.types" :key="item.id">
           <div
             class="p-2 bg-purple-100 border border-gray-400 rounded text-center m-2"
           >
             {{ item.type.name }}
+            
           </div>
         </div>
       </div>
@@ -31,4 +34,10 @@ export default {
 </script>
 
 <style>
+.poke:hover > .pokeesc{
+  display: block;
+}
+.poke:hover > .poke2{
+   display: none;
+}
 </style>

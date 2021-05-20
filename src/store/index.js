@@ -34,6 +34,7 @@ export default createStore({
       }
       await commit('setLoader',false)
       await commit('setPokemons',array)
+      
     },
      async filterPokemons({commit,state},tipo){
        if(tipo !== ''){
@@ -46,8 +47,10 @@ export default createStore({
            }   
         })
         commit('setPokemonsFilter',filtrado)
+        
        }else{
         commit('setPokemonsFilter',state.pokemons)
+        console.log(state.pokemons)
        }
      },
      async searchPokemonByName({commit,state},name){
