@@ -2,69 +2,99 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    pokemons:[],
-    pokemonsFilter:[],
-    loader:true
+    pokemons: [],
+    pokemonsFilter: [],
+    paginate:'',
+    loader: true
   },
   mutations: {
-    setLoader(state,payload){
+    setPaginate(state, payload) {
+      state.paginate = payload
+    },
+    setLoader(state, payload) {
       state.loader = payload
     },
-    setPokemons(state, payload){
+    setPokemons(state, payload) {
+      state.pokemons = payload
+
+
+
+    },
+    setPokemonsFilter(state, payload) {
+      state.pokemonsFilter = payload
+
+    },
+    pushNewPokemons(state,payload){
       state.pokemons = payload
       
-    },
-    setPokemonsFilter(state,payload){
-      state.pokemonsFilter = payload
-     
     }
   },
   actions: {
-    async changeLoader({commit},status){
-      commit('setLoader',status)
-    },
-    async getPokemons({commit}){
-      let array = []
-      for(let i = 1 ; i<=2 ; i++){
-        const getPokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        const respuesta = await getPokemons.json()
-       
-        array.push(respuesta)
-       
-      }
-      await commit('setLoader',false)
-      await commit('setPokemons',array)
+    async pushNewPokemons({commit,state},url){
+      const getPokemons = await fetch(url)
+      const respuesta = await getPokemons.json()
       
+      const array = []
+      for (let i in respuesta.results) {
+        respuesta.results[i].url
+        const getPokemonsAll = await fetch(respuesta.results[i].url)
+        const responsePokemonsAll = await getPokemonsAll.json()
+        array.push(responsePokemonsAll)
+      }
+      
+      await commit('pushNewPokemons', state.pokemons.concat(array))
+      await commit('setPaginate', respuesta)
+
     },
-     async filterPokemons({commit,state},tipo){
-       if(tipo !== ''){
+    async changeLoader({ commit }, status) {
+      commit('setLoader', status)
+    },
+    async getPokemons({ commit }) {
+      const getPokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/`)
+      const respuesta = await getPokemons.json()
+
+      const array = []
+      for (let i in respuesta.results) {
+        respuesta.results[i].url
+        const getPokemonsAll = await fetch(respuesta.results[i].url)
+        const responsePokemonsAll = await getPokemonsAll.json()
+        array.push(responsePokemonsAll)
+      }
+      
+      await commit('setLoader', false)
+      await commit('setPokemons', array)
+      await commit('setPaginate', respuesta)
+
+    },
+    async filterPokemons({ commit, state }, tipo) {
+      if (tipo !== '') {
         let filtrado = []
         state.pokemons.filter(item => {
-            for(let i = 0 ; i < item.types.length ; i++){
-              if(item.types[i].type.name == tipo.toLowerCase()){
-                filtrado.push(item)
-              }
-           }   
-        })
-        commit('setPokemonsFilter',filtrado)
-        
-       }else{
-        commit('setPokemonsFilter',state.pokemons)
-        console.log(state.pokemons)
-       }
-     },
-     async searchPokemonByName({commit,state},name){
-       let pokemon = state.pokemons.filter(pokemon => {
-         const pokemonName = pokemon.name.toLowerCase()
-          if(pokemonName.includes(name)){
-            return pokemon
+          for (let i = 0; i < item.types.length; i++) {
+            if (item.types[i].type.name == tipo.toLowerCase()) {
+              filtrado.push(item)
+            }
           }
-       } )
-      commit('setPokemonsFilter',pokemon)
-     }
+        })
+        commit('setPokemonsFilter', filtrado)
+
+      } else {
+        commit('setPokemonsFilter', state.pokemons)
+
+      }
+    },
+    async searchPokemonByName({ commit, state }, name) {
+      let pokemon = state.pokemons.filter(pokemon => {
+        const pokemonName = pokemon.name.toLowerCase()
+        if (pokemonName.includes(name)) {
+          return pokemon
+        }
+      })
+      commit('setPokemonsFilter', pokemon)
+    }
   },
-  getters:{
-    
+  getters: {
+
   },
   modules: {
   }
