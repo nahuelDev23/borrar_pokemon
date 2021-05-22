@@ -5,10 +5,6 @@
       <FilterByType />
     </div>
 
-<<<<<<< HEAD
-    <div class="grid grid-cols-3 md:grid-cols-6">
-      <div class="poke" v-for="(pokemon, index) in pokemons" :key="index">
-=======
     <div class="grid grid-cols-6">
       <div
         class="poke"
@@ -16,7 +12,6 @@
         :key="index"
         @click="details(pokemon.id)"
       >
->>>>>>> scrolling
         <div class="text-center">{{ pokemon.name }}</div>
         <img
           class="mx-auto poke2"
