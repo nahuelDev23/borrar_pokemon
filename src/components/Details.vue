@@ -3,7 +3,7 @@
     v-if="showModal"
     class="flex centrar bg-opacity-75 bg-gray-900 p-4 text-gray-200 rounded"
   >
-    <button @click="!shiny">Shinny</button>
+    <button class="absolute top-2 left-2 focus:outline-none border p-1 rounded" @click="shinny = !shinny">Shinny</button>
     <button
       class="absolute top-2 right-2 focus:outline-none"
       @click="changeShowModal(false)"
@@ -11,11 +11,7 @@
       <i class="fas fa-window-close"></i>
     </button>
     <div class="mx-4 my-auto ">
-      <!-- <img
-        v-if="findOnePokemon.sprites"
-        :src="findOnePokemon.sprites.front_default"
-        alt=""
-      /> -->
+      
       <img v-if="shinny" :src="`https://projectpokemon.org/images/normal-sprite/${findOnePokemon.name}.gif`" alt="" /> 
       <img v-else :src="`https://projectpokemon.org/images/shiny-sprite/${findOnePokemon.name}.gif`" alt="" />   
        
@@ -53,7 +49,9 @@ data() {
   },
   methods: {
     ...mapActions(["changeShowModal"]),
+   
   },
+  
 };
 </script>
 
