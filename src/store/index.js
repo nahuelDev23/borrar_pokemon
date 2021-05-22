@@ -4,36 +4,54 @@ export default createStore({
   state: {
     pokemons: [],
     pokemonsFilter: [],
-    paginate:'',
-    loader: true
+    paginate: '',
+    findOnePokemon: [],
+    loader: true,
+    showModal: false,
+    maxStat:0
   },
   mutations: {
+    setMaxStat(state,payload){
+      state.setMaxStat = payload
+    },
+    setFindOnePokemon(state, payload) {
+      state.findOnePokemon = payload
+    },
     setPaginate(state, payload) {
       state.paginate = payload
+    },
+    setShowModal(state,payload) {
+      state.showModal = payload
     },
     setLoader(state, payload) {
       state.loader = payload
     },
     setPokemons(state, payload) {
       state.pokemons = payload
-
-
-
     },
     setPokemonsFilter(state, payload) {
       state.pokemonsFilter = payload
 
     },
-    pushNewPokemons(state,payload){
+    pushNewPokemons(state, payload) {
       state.pokemons = payload
-      
+
     }
   },
   actions: {
-    async pushNewPokemons({commit,state},url){
-      const getPokemons = await fetch(url)
-      const respuesta = await getPokemons.json()
-      
+    getMaxStat({commit},stat){
+      commit('setMaxStat',stat)
+    },
+    findOnePokemonAction({ commit, state }, id) {
+      const pokemon = state.pokemons.find(item => item.id == id)
+      // console.log(pokemon)
+      commit('setFindOnePokemon', pokemon)
+    },
+    async pushNewPokemons({ commit, state }) {
+      const url = state.paginate.next
+      const getNewPokemons = await fetch(url)
+      const respuesta = await getNewPokemons.json()
+
       const array = []
       for (let i in respuesta.results) {
         respuesta.results[i].url
@@ -41,13 +59,16 @@ export default createStore({
         const responsePokemonsAll = await getPokemonsAll.json()
         array.push(responsePokemonsAll)
       }
-      
+
       await commit('pushNewPokemons', state.pokemons.concat(array))
       await commit('setPaginate', respuesta)
 
     },
     async changeLoader({ commit }, status) {
       commit('setLoader', status)
+    },
+    async changeShowModal({ commit },show) {
+      commit('setShowModal',show)
     },
     async getPokemons({ commit }) {
       const getPokemons = await fetch(`https://pokeapi.co/api/v2/pokemon/`)
@@ -60,7 +81,7 @@ export default createStore({
         const responsePokemonsAll = await getPokemonsAll.json()
         array.push(responsePokemonsAll)
       }
-      
+
       await commit('setLoader', false)
       await commit('setPokemons', array)
       await commit('setPaginate', respuesta)
@@ -77,10 +98,8 @@ export default createStore({
           }
         })
         commit('setPokemonsFilter', filtrado)
-
       } else {
         commit('setPokemonsFilter', state.pokemons)
-
       }
     },
     async searchPokemonByName({ commit, state }, name) {
